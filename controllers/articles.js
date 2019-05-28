@@ -8,7 +8,7 @@ module.exports = {
 
       var articlesArr = data;
 
-      for (var i = 0; i < articlesArr.length; i++) {
+      for (let i = 0; i < articlesArr.length; i++) {
         articlesArr[i].date = new Date();
         articlesArr[i].saved = false;
         articlesArr[i].note = [];
