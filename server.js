@@ -1,129 +1,61 @@
-/* This is as far as I got on Sunday  night.  Still working! */
-
-
-
+// Dependencies
 var express = require("express");
+var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
-var axios = require("axios");
-var cheerio = require("cheerio");
+var exphbs = require("express-handlebars");
+// Requiring our Note and Article models
+var Note = require("./models/Note.js");
+var Article = require("./models/Article.js");
+// Set mongoose to leverage built in JavaScript ES6 Promises
+mongoose.Promise = Promise;
 
-// Require all models
-/*var db = require("./models")*/
-
-
-const PORT = process.env.PORT || 8080;
-
+// Initialize Express
 var app = express();
 
-app.use(express.urlencoded({
-  extended: true
+// Use body parser with our app
+app.use(bodyParser.urlencoded({
+   extended: false
 }));
-app.use(express.json());
 
+// Make public a static dir
+app.use(express.static(process.cwd() + "/public"));
 
-app.use(express.static("public"));
+// Database configuration with mongoose
+var databaseUri = "mongodb://localhost/mongoosearticles";
 
-// Code provided in notes
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI);
+} else {
+  mongoose.connect(databaseUri);
+}
 
-mongoose.connect(MONGODB_URI);
+var db = mongoose.connection;
 
-
-app.get("/scrape", function (req, res) {
- 
-
-  axios.get("https://www.drudgereport.com/").then(function (response) {
-
-
-    var $ = cheerio.load(response.data);
-
- 
-    var result = {};
-
-  
-    $("a").each(function (i, element) {
-
-      result.title = $(this).text();
-      result.link = $(this).attr("href");
-
-
-      // Create a new Question using the `result` object built from scraping
-      db.Link.create(result)
-        .then(function (dbLink) {
-          // View the added result in the console
-          console.log(dbLink);
-        })
-        .catch(function (err) {
-          // If an error occurred, send it to the client
-          return res.json(err);
-        });
-
-
-      // If we were able to successfully scrape and save an Question, send a message to the client
-      res.send("Hey!!! You were able to sucessfully scrape!!!");
-    });
-  });
+db.on("error", function(error) {
+  console.log("Mongoose Error: ", error);
 });
 
-// Route for getting all Questions from the db
-app.get("/Links", function (req, res) {
-  // Grab every document in the Questions collection
-  db.Question.find({})
-    .then(function (dbLink) {
-      // If we were able to successfully find Questions, send them back to the client
-      res.json(dbLink);
-    })
-    .catch(function (err) {
-      // If an error occurred, send it to the client
-      res.json(err);
-    });
+db.once("open", function() {
+  console.log("Mongoose connection sucessful.");
 });
 
-// Route for grabbing a specific Question by id, populate it with it's note
-app.get("/Links/:id", function (req, res) {
-  // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
-  db.Question.findOne({
-      _id: req.params.id
-    })
-    // ..and populate all of the notes associated with it
-    .populate("note")
-    .then(function (dbLink) {
-      // If we were able to successfully find an Question with the given id, send it back to the client
-      res.json(dbQuestion);
-    })
-    .catch(function (err) {
-      // If an error occurred, send it to the client
-      res.json(err);
-    });
-});
+//set engine and default for handlebars
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
-// Route for saving/updating an Question's associated Note
-app.post("/Questions/:id", function (req, res) {
-  // Create a new note and pass the req.body to the entry
-  db.Note.create(req.body)
-    .then(function (dbNote) {
-      // If a Note was created successfully, find one Question with an `_id` equal to `req.params.id`. Update the Question to be associated with the new Note
-      // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
-      // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
-      return db.Question.findOneAndUpdate({
-        _id: req.params.id
-      }, {
-        note: dbNote._id
-      }, {
-        new: true
-      });
-    })
-    .then(function (dbQuestion) {
-      // If we were able to successfully update an Question, send it back to the client
-      res.json(dbQuestion);
-    })
-    .catch(function (err) {
-      // If an error occurred, send it to the client
-      res.json(err);
-    });
-});
+// Import routes and give the server access to them.
+var router = express.Router();
 
-// Start the server
-app.listen(PORT, function () {
-  console.log("App running on port " + PORT );
+// Require routes file pass router object
+require("./config/routes")(router);
+
+// Have every request go through router middlewar
+app.use(router);
+
+//set port
+var port = process.env.PORT || 4000;
+
+//setup listener
+app.listen(port, function() {
+  console.log("app running on port " + port);
 });
