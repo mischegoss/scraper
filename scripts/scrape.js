@@ -1,8 +1,8 @@
-// Our scraping tools
+
 var request = require("request");
 var cheerio = require("cheerio");
 
-//scrape articles from the New YorK Times
+
 var scrape = function(callback) {
 
   var articlesArr = [];
@@ -14,9 +14,7 @@ var scrape = function(callback) {
 
       $("a").each(function(i, element) {
 
-          var result = {};
-
-          // Add the text and href of every link, and save them as properties of the result object
+          var result = {};   
           result.title = $(this).text();
           result.link = $(this).attr("href");
 
