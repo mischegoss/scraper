@@ -1,4 +1,9 @@
-<div class="articles container">
+ <form class="navbar-form text-center" action="/api/fetch" method="get">
+						<button class="btn btn-warning scrape">Get New Articles</button> 
+						</form>
+
+
+  <div class="articles container">
 
     {{#each articles }}
     <div class="panel panel-default">
@@ -7,7 +12,7 @@
       </div>
       <div class="panel-body">
         <a class="artLink" href={{link}}>{{link}}</a>
-        <button data-id={{_id}} class="btn btn-danger pull-right save-article">Save Article</button>
+        <button data-id={{_id}} class="btn btn-warning pull-right save-article">Save Article</button>
       </div>
     </div>
     <br />

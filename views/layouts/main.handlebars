@@ -5,7 +5,7 @@
 		 <title>Drudge Dredge</title>
        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 			 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-			 <link href="https://fonts.googleapis.com/css?family=Roboto%7CRoboto+Slab" rel="stylesheet">
+			 
        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -14,21 +14,20 @@
 	</head>
 
 	<body>
+		
+		<h1 class ="text-center">DRUDGE DREDGE</h1>
 		<nav class="navbar navbar-default">
 				<div class="container-fluid">
-					<div class="navbar-header">
-						<a class="navbar-brand" href="/">Drudge Dredge</a>
-					</div>
+					
 						<ul class="nav navbar-nav">
 							<li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
 							<li><a id="saved" href="/saved">Saved Articles</a></li>
 						</ul>
-						<form class="navbar-form navbar-left" action="/api/fetch" method="get">
-							<button class="btn scrape">Find New Articles</button>
-						</form>
+						
 				</div>
 			</nav>
 			
+		
 
 
 		{{{ body }}}

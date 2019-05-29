@@ -9,9 +9,9 @@
     		    <a class="artLink" href={{link}}>{{link}}</a>
            
 
-    		      <button data-id={{_id}} class="btn btn-danger pull-right removeSaved">Remove from Saved</button>
+    		      <button data-id={{_id}} class="btn btn-primary pull-right removeSaved">Remove from Saved</button>
 
-              <button data-id={{_id}} class="btn btn-primary pull-right saved-buttons"  id="addCheckNote" data-toggle="modal" data-target="#noteModal" data-value="{{this._id}}">View/Add Notes</button>
+              <button data-id={{_id}} class="btn btn-warning pull-right saved-buttons"  id="addCheckNote" data-toggle="modal" data-target="#noteModal" data-value="{{this._id}}">View/Add Notes</button>
     		  </div>
     		</div>
     		<br />
@@ -42,7 +42,7 @@
                       <div><!--enter saved notes here--></div>
                   </div>
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
                       <button data-id={{_id}}  data-dismiss="modal" id="saveButton" class="btn btn-primary savenote">Save changes</button>
                   </div>
               </div>

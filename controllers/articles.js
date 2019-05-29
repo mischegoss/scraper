@@ -9,7 +9,7 @@ module.exports = {
       var articlesArr = data;
 
       for (let i = 0; i < articlesArr.length; i++) {
-        articlesArr[i].date = new Date();
+        //articlesArr[i].date = new Date();
         articlesArr[i].saved = false;
         articlesArr[i].note = [];
       }

@@ -18,8 +18,8 @@ var scrape = function(callback) {
           result.title = $(this).text();
           result.link = $(this).attr("href");
 
-          if (result.title !== "" && result.link !== "") {
-              articlesArr.push(result);
+          if (result.title !== "" && result.link !== "" && result.title.toUpperCase !== result.title) {
+              articlesArr.splice(0, 0, result);
           }
       });
       callback(articlesArr);

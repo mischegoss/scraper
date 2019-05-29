@@ -38,6 +38,10 @@ $(document).ready(function() {
       });
   });
 
+  $('.empty.array').on('click', function() {
+    articlesArr = [];
+  })
+
   $('.saved-buttons').on('click',  function () {
       
       var thisId = $(this).attr("data-value");
@@ -84,4 +88,4 @@ $(document).ready(function() {
   });
 });
 
-//Adding note to deploy
+
